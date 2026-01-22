@@ -80,9 +80,14 @@ def insert_df_to_postgres(df: pd.DataFrame, conn):
         conn.commit()
     logger.info(f"Inserted {len(tuples)} rows into raw.telegram_messages")
 
+
 def main():
     base_data_dir = "data"
-    today = datetime.today().strftime("%Y-%m-%d")
+    # today = datetime.today().strftime("%Y-%m-%d")
+
+    date_string = "2026-01-18"
+    specific_date = datetime.strptime(date_string, "%Y-%m-%d")
+    today = specific_date.strftime("%Y-%m-%d")
     df = load_json_files_to_df(base_data_dir, today)
     conn = connect_db()
     create_raw_table(conn)

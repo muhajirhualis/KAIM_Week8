@@ -1,3 +1,4 @@
 data/
 .env
 telegram_scraper_session.session
+__pycache__
