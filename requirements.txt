@@ -4,4 +4,9 @@ dbt-postgres
 psycopg2-binary
 pandas
 
+ultralytics
+fastapi 
+uvicorn 
+sqlalchemy
+pydantic
  
