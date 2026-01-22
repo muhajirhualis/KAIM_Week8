@@ -31,7 +31,7 @@ def create_raw_table(conn):
     with conn.cursor() as cur:
         cur.execute("""
         CREATE SCHEMA IF NOT EXISTS raw;
-        DROP TABLE IF EXISTS raw.telegram_messages;
+        TRUNCATE TABLE raw.telegram_messages RESTART IDENTITY;
         CREATE TABLE raw.telegram_messages (
             message_id BIGINT,
             channel_name TEXT,
