@@ -1,4 +1,4 @@
-# models/schema.yml
+
 version: 2
 
 models:
@@ -39,3 +39,40 @@ models:
           - relationships:
               to: ref('dim_dates')
               field: date_key
+
+  - name: fct_image_detections
+    description: "Fact table linking YOLO image analysis to messages"
+    columns:
+      - name: message_id
+        description: "Foreign key to fct_messages"
+        tests:
+          - not_null
+          - unique
+          - relationships:
+              to: ref('fct_messages')
+              field: message_id
+      - name: channel_key
+        description: "Conformed dimension key from fct_messages"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_channels')
+              field: channel_key
+      - name: date_key
+        description: "Conformed date key"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_dates')
+              field: date_key
+      - name: detected_class
+        description: "Alias of image_category for clarity"
+        tests:
+          - accepted_values:
+              values: ['promotional', 'product_display', 'lifestyle', 'other']
+      - name: confidence_score
+        description: "Max object detection confidence (0.0–1.0)"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "confidence_score >= 0.0 AND confidence_score <= 1.0"
